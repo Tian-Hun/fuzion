@@ -1,0 +1,5 @@
+[meta]
+creation_timestamp = "1724504262409944 2024-08-24 20:57:42.409944 +08:00"
+
+[packages]
+futune = { uuid = "E5EHUEHHJKFFCBICKHIQXH3JCA", uuid_custom = false }
