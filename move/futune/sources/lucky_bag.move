@@ -35,16 +35,9 @@ module futune::lucky_bag {
     }
 
     fun draw(
-        config: &DrawConfig,
-        treasury: &mut Treasury,
-        payment: &mut Coin<SUI>,
         random: &Random,
         ctx: &mut TxContext
     ): vector<Stroke> {
-        assert!(payment.value() >= config.price, EInsufficientPayment);
-
-        treasury::deposit(treasury, payment, config.price, ctx);
-
         let mut generator = new_generator(random, ctx);
         let stroke_count = generator.generate_u8_in_range(1, 3);
         let mut strokes = vector::empty<Stroke>();
@@ -67,11 +60,16 @@ module futune::lucky_bag {
     entry fun draw_and_transfer(
         config: &DrawConfig,
         treasury: &mut Treasury,
-        payment: &mut Coin<SUI>,
+        payment: Coin<SUI>,
         random: &Random,
         ctx: &mut TxContext,
     ) {
-        let mut strokes = draw(config, treasury, payment, random, ctx);
+        assert!(payment.value() >= config.price, EInsufficientPayment);
+
+        let change = treasury::deposit(treasury, payment, config.price, ctx);
+        transfer::public_transfer(change, ctx.sender());
+
+        let mut strokes = draw(random, ctx);
         let sender = ctx.sender();
 
         while (!vector::is_empty(&strokes)) {

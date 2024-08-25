@@ -28,9 +28,9 @@ flavor = "sui"
 [env]
 
 [env.localnet_proxy]
-chain-id = "65537762"
-original-published-id = "0xda35850113b7b0eb551b7cf1423ab0384fc6f419ca5001bd068762d33a085841"
-latest-published-id = "0xda35850113b7b0eb551b7cf1423ab0384fc6f419ca5001bd068762d33a085841"
+chain-id = "7664313f"
+original-published-id = "0x140dfdf525c123fca5c45388cb0b24192ca00c687962344bd53d6de50aa7c501"
+latest-published-id = "0x140dfdf525c123fca5c45388cb0b24192ca00c687962344bd53d6de50aa7c501"
 published-version = "1"
 
 [env.testnet]

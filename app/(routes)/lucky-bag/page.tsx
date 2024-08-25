@@ -51,7 +51,7 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
             throw new Error('Insufficient balance');
         }
 
-        const [paymentCoin] = tx.splitCoins(tx.object(coinToUse.coinObjectId), [paymentAmount]);
+        const [paymentCoin] = tx.splitCoins(tx.gas, [paymentAmount]);
 
         tx.moveCall({
             target: `${packageId}::lucky_bag::draw_and_transfer`,
