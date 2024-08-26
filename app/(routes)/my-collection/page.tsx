@@ -1,7 +1,6 @@
 'use client';
 
 import { NextPage } from 'next';
-import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { Box, Card, Dialog, Grid, Heading, Link, Tabs } from '@radix-ui/themes';
 import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit';
@@ -10,9 +9,6 @@ import { useNetworkVariable } from '@/providers/sui/config';
 interface MyCollectionProps {}
 
 const MyCollection: NextPage<MyCollectionProps> = ({}) => {
-    const searchParams = useSearchParams();
-    const id = searchParams.get('id');
-
     const currentAccount = useCurrentAccount();
     const packageId = useNetworkVariable('packageId');
     console.log(packageId);
@@ -102,7 +98,6 @@ const MyCollection: NextPage<MyCollectionProps> = ({}) => {
                     <Dialog.Title>Edit profile</Dialog.Title>
                     <Dialog.Description size="2" mb="4">
                         Make changes to your profile.
-                        {id}
                     </Dialog.Description>
                 </Dialog.Content>
             </Dialog.Root>

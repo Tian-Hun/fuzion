@@ -98,10 +98,10 @@ const MintPage: NextPage<MintPageProps> = ({}) => {
                             The 福  character is one of the most auspicious and widely recognized symbols in Chinese culture, embodying happiness, good fortune, and blessings. Our unique NFT collection allows you to own a piece of this rich cultural heritage in a modern, digital form.
                     </p>
                     <p className="text-16px lh-24px mt-4">
-                            The character 福 represents the collective hope for prosperity, health, and harmony. In Chinese tradition, it's often displayed upside down, as the word for "upside down" (倒, dào) sounds similar to the word for "arrive" (到, dào), thus implying that good fortune has arrived or is coming.
+                            The character 福 represents the collective hope for prosperity, health, and harmony. In Chinese tradition, it&apos;s often displayed upside down, as the word for &quot;upside down&quot; (倒, dào) sounds similar to the word for &quot;arrive&quot; (到, dào), thus implying that good fortune has arrived or is coming.
                     </p>
                     <p className="text-16px lh-24px mt-4">
-                            Each 福 NFT in our collection is a distinct rendition of this powerful symbol, created through a combination of traditional calligraphy styles and modern digital art techniques. By minting a 福 NFT, you're not just acquiring a digital asset, but also embracing a symbol of positivity and cultural significance.
+                            Each 福 NFT in our collection is a distinct rendition of this powerful symbol, created through a combination of traditional calligraphy styles and modern digital art techniques. By minting a 福 NFT, you&apos;re not just acquiring a digital asset, but also embracing a symbol of positivity and cultural significance.
                     </p>
                 </div>
                 <div className="w-500px flex flex-col gap-10px">
