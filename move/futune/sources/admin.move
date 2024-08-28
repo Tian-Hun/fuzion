@@ -1,4 +1,7 @@
 module futune::admin {
+    // Package dependencies
+    use futune::package::{Self, PackageAdminCap};
+    use futune::fu::{Self, FuMinter, FuFontConfig};
     use futune::treasury::{Self, Treasury, TreasuryAdminCap};
     use futune::lucky_bag::{Self, DrawConfig};
 
@@ -6,7 +9,7 @@ module futune::admin {
     const EInsufficientBalance: u64 = 0;
 
     // ===== Admin Functions =====
-    public entry fun withdraw_from_treasury(
+    entry fun withdraw_from_treasury(
         admin_cap: &TreasuryAdminCap,
         treasury: &mut Treasury,
         amount: u64,
@@ -18,7 +21,7 @@ module futune::admin {
         transfer::public_transfer(withdrawn_coin, recipient);
     }
 
-    public entry fun set_draw_price(
+    entry fun set_draw_price(
         _: &TreasuryAdminCap,
         config: &mut DrawConfig,
         new_price: u64
@@ -27,7 +30,20 @@ module futune::admin {
     }
 
     // Function to view treasury balance (optional, for convenience)
-    public entry fun view_treasury_balance(treasury: &Treasury): u64 {
+    entry fun view_treasury_balance(treasury: &Treasury): u64 {
         treasury::balance(treasury)
+    }
+
+    entry fun migrate(
+        _: &PackageAdminCap,
+        draw_config: &mut DrawConfig,
+        treasury: &mut Treasury,
+        fu_minter: &mut FuMinter,
+        fu_font_config: &mut FuFontConfig,
+    ) {
+        lucky_bag::migrate(draw_config);
+        treasury::migrate(treasury);
+        fu::migrate(fu_minter, fu_font_config);
+        package::emit_migrate_event();
     }
 }

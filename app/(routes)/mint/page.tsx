@@ -20,7 +20,7 @@ interface MintPageProps {}
 const MintPage: NextPage<MintPageProps> = ({}) => {
     const router = useRouter();
     const suiClient = useSuiClient();
-    const { packageId, objectFuMinter } = useNetworkVariables();
+    const { packageId, objectFuMinter, objectFuFontConfig } = useNetworkVariables();
     const { connectionStatus } = useCurrentWallet();
     const [loading, setLoading] = useState(false);
 
@@ -49,7 +49,11 @@ const MintPage: NextPage<MintPageProps> = ({}) => {
 
         tx.moveCall({
             target: `${packageId}::fu::mint_to_sender`,
-            arguments: [tx.object(objectFuMinter!), tx.object('0x8')]
+            arguments: [
+                tx.object(objectFuMinter!),
+                tx.object(objectFuFontConfig!),
+                tx.object('0x8'),
+            ],
         });
 
         signAndExecuteTransaction(

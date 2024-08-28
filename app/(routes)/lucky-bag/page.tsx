@@ -15,7 +15,7 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
     const suiClient = useSuiClient();
     const account = useCurrentAccount();
     const sender = account?.address;
-    const { packageId, objectDrawConfig, objectTreasury } = useNetworkVariables();
+    const { packageId, objectDrawConfig, objectFuFontConfig, objectTreasury } = useNetworkVariables();
     const { connectionStatus } = useCurrentWallet();
     const [loading, setLoading] = useState(false);
 
@@ -57,6 +57,7 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
             target: `${packageId}::lucky_bag::draw_and_transfer`,
             arguments: [
                 tx.object(objectDrawConfig!),
+                tx.object(objectFuFontConfig!),
                 tx.object(objectTreasury!),
                 paymentCoin,
                 tx.object('0x8'),

@@ -2,11 +2,6 @@ module futune::stroke {
     use std::string::utf8;
     use sui::display;
     use sui::package;
-    use sui::random::{Random, new_generator};
-
-    // ===== Constants =====
-    const MAX_STROKES: u8 = 13;
-    const MAX_FONTS: u8 = 5;
 
     // ===== Structs =====
     public struct Stroke has key, store {
@@ -26,24 +21,20 @@ module futune::stroke {
             utf8(b"image_url"),
         ];
         let values = vector[
-            utf8(b"Futune Stroke #{stroke_type}"),
-            utf8(b"A unique stroke from the Futune collection"),
-            utf8(b"https://example.com/stroke/{stroke_type}/{font}.png"),
+            utf8(b"Fu Stroke #{stroke_type}"),
+            utf8(b"A unique stroke from the Fu collection"),
+            utf8(b"https://fuzion-sui.vercel.app/fu-strokes/{font}/{stroke_type}/svg"),
         ];
         let publisher = package::claim(witness, ctx);
         let mut display = display::new_with_fields<Stroke>(
             &publisher, keys, values, ctx
         );
         display::update_version(&mut display);
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
-        transfer::public_transfer(display, tx_context::sender(ctx));
+        transfer::public_transfer(publisher, ctx.sender());
+        transfer::public_transfer(display, ctx.sender());
     }
 
-    public(package) fun create(random: &Random, ctx: &mut TxContext): Stroke {
-        let mut generator = new_generator(random, ctx);
-        let stroke_type = generator.generate_u8_in_range(1, MAX_STROKES);  // 1-5种字体样式
-        let font = generator.generate_u8_in_range(1, MAX_FONTS);  // 1-13笔画索引
-
+    public(package) fun create(font: u8, stroke_type: u8, ctx: &mut TxContext): Stroke {
         Stroke {
             id: object::new(ctx),
             stroke_type,

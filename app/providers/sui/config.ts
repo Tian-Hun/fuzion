@@ -10,6 +10,7 @@ export const { networkConfig, useNetworkVariable, useNetworkVariables } = create
             objectFuMinter: process.env.NEXT_PUBLIC_LOCALNET_OBJECT_FU_MINTER,
             objectDrawConfig: process.env.NEXT_PUBLIC_LOCALNET_OBJECT_DRAW_CONFIG,
             objectTreasury: process.env.NEXT_PUBLIC_LOCALNET_OBJECT_TREASURY,
+            objectFuFontConfig: process.env.NEXT_PUBLIC_LOCALNET_OBJECT_FU_FONT_CONFIG,
         },
     },
     devnet: {
@@ -19,6 +20,7 @@ export const { networkConfig, useNetworkVariable, useNetworkVariables } = create
             objectFuMinter: process.env.NEXT_PUBLIC_DEVNET_OBJECT_FU_MINTER,
             objectDrawConfig: process.env.NEXT_PUBLIC_DEVNET_OBJECT_DRAW_CONFIG,
             objectTreasury: process.env.NEXT_PUBLIC_DEVNET_OBJECT_TREASURY,
+            objectFuFontConfig: process.env.NEXT_PUBLIC_DEVNET_OBJECT_FU_FONT_CONFIG,
         },
     },
     testnet: {
@@ -28,6 +30,7 @@ export const { networkConfig, useNetworkVariable, useNetworkVariables } = create
             objectFuMinter: process.env.NEXT_PUBLIC_TESTNET_OBJECT_FU_MINTER,
             objectDrawConfig: process.env.NEXT_PUBLIC_TESTNET_OBJECT_DRAW_CONFIG,
             objectTreasury: process.env.NEXT_PUBLIC_TESTNET_OBJECT_TREASURY,
+            objectFuFontConfig: process.env.NEXT_PUBLIC_TESTNET_OBJECT_FU_FONT_CONFIG,
         },
     },
     mainnet: {
@@ -37,6 +40,7 @@ export const { networkConfig, useNetworkVariable, useNetworkVariables } = create
             objectFuMinter: process.env.NEXT_PUBLIC_MAINNET_OBJECT_FU_MINTER,
             objectDrawConfig: process.env.NEXT_PUBLIC_MAINNET_OBJECT_DRAW_CONFIG,
             objectTreasury: process.env.NEXT_PUBLIC_MAINNET_OBJECT_TREASURY,
+            objectFuFontConfig: process.env.NEXT_PUBLIC_MAINNET_OBJECT_FU_FONT_CONFIG,
         },
     },
 });

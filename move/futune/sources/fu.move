@@ -5,11 +5,11 @@ module futune::fu {
     use sui::event;
     use sui::object_table::{Self, ObjectTable};
     use sui::random::{Random, new_generator};
-    use futune::stroke::{Self, Stroke};
+    use sui::table::{Self, Table};
 
-    // ===== Constants =====
-    const MAX_STROKES: u8 = 13;
-    const MAX_FONTS: u8 = 5;
+    // Package dependencies
+    use futune::stroke::{Self, Stroke};
+    use futune::package::{version, check_version};
 
     // ===== Errors =====
     const EInvalidFont: u64 = 0;
@@ -36,11 +36,20 @@ module futune::fu {
         font: u8,
         strokes: ObjectTable<u8, Stroke>,
         synthesized: bool,
+        required_strokes: u8,
     }
 
     public struct FuMinter has key {
         id: UID,
         counter: u64,
+        version: u64,
+    }
+
+    public struct FuFontConfig has key {
+        id: UID,
+        max_fonts: u8,
+        required_strokes_map: Table<u8, u8>,
+        version: u64,
     }
 
     // ===== Functions =====
@@ -56,10 +65,10 @@ module futune::fu {
 
         let values = vector[
             utf8(b"{name} #{nft_id}"),
-            utf8(b"https://example.com/fu/{id}"),
-            utf8(b"https://example.com/fu/{id}.png"),
+            utf8(b"https://fuzion-sui.vercel.app/my-collection/fu/{id}"),
+            utf8(b"https://fuzion-sui.vercel.app/fu-characters/{id}/svg"),
             utf8(b"A customizable Fu character NFT with different fonts"),
-            utf8(b"https://example.com"),
+            utf8(b"https://fuzion-sui.vercel.app"),
             utf8(b"Fu Character Team"),
         ];
 
@@ -77,18 +86,42 @@ module futune::fu {
         transfer::share_object(FuMinter {
             id: object::new(ctx),
             counter: 0,
+            version: version(),
         });
+
+        let mut fu_font_config = FuFontConfig {
+            id: object::new(ctx),
+            max_fonts: 6,
+            required_strokes_map: table::new(ctx),
+            version: version(),
+        };
+
+        // Initialize the required strokes for each font
+        fu_font_config.required_strokes_map.add(1, 5);
+        fu_font_config.required_strokes_map.add(2, 6);
+        fu_font_config.required_strokes_map.add(3, 7);
+        fu_font_config.required_strokes_map.add(4, 5);
+        fu_font_config.required_strokes_map.add(5, 5);
+        fu_font_config.required_strokes_map.add(6, 7);
+
+        transfer::share_object(fu_font_config);
     }
 
-    entry fun mint_to_sender(minter: &mut FuMinter, random: &Random, ctx: &mut TxContext) {
+    entry fun mint_to_sender(minter: &mut FuMinter, font_config: &FuFontConfig, random: &Random, ctx: &mut TxContext) {
+        // Check the version of the FuMinter
+        check_version(minter.version);
+        check_version(font_config.version);
+
         let id = object::new(ctx);
         minter.counter = minter.counter + 1;
 
         let mut generator = new_generator(random, ctx);
-        let font = generator.generate_u8_in_range(1, MAX_FONTS);
+        let font = generator.generate_u8_in_range(1, font_config.max_fonts);
         let nft_id = minter.counter;
         // Generate a default name for the FuCharacter
         let name = utf8(b"Fu Character");
+        // Get the required strokes for the font
+        let required_strokes = *table::borrow(&font_config.required_strokes_map, font);
 
         let fu = FuCharacter {
             id,
@@ -97,6 +130,7 @@ module futune::fu {
             font,
             strokes: object_table::new(ctx),
             synthesized: false,
+            required_strokes,
         };
 
         // Emit the FuMintedEvent
@@ -111,7 +145,7 @@ module futune::fu {
         transfer::transfer(fu, ctx.sender());
     }
 
-    public fun add_stroke(fu: &mut FuCharacter, stroke: Stroke) {
+    public entry fun add_stroke(fu: &mut FuCharacter, stroke: Stroke) {
         assert!(!is_complete(fu), EFuAlreadyComplete);
         assert!(fu.font == stroke::font(&stroke), EInvalidFont);
 
@@ -133,7 +167,7 @@ module futune::fu {
 
         // Transfer all strokes to the Fu character owner
         let mut i: u8 = 1;
-        while (i <= MAX_STROKES) {
+        while (i <= fu.required_strokes) {
             let stroke= fu.strokes.remove(i);
             transfer::public_transfer(stroke, object::uid_to_address(&fu.id));
             i = i + 1;
@@ -143,7 +177,7 @@ module futune::fu {
     }
 
     public fun is_complete(fu: &FuCharacter): bool {
-        fu.strokes.length() == (MAX_STROKES as u64)
+        fu.strokes.length() == (fu.required_strokes as u64)
     }
 
     // ===== Public view functions =====
@@ -157,5 +191,21 @@ module futune::fu {
 
     public fun stroke_count(fu: &FuCharacter): u64 {
         fu.strokes.length()
+    }
+
+    public fun max_fonts(font_config: &FuFontConfig): u8 {
+        font_config.max_fonts
+    }
+
+    public fun required_strokes(font_config: &FuFontConfig, font: u8, ): u8 {
+        *table::borrow(&font_config.required_strokes_map, font)
+    }
+
+    public(package) fun migrate(
+        fu_minter: &mut FuMinter,
+        fu_font_config: &mut FuFontConfig,
+    ) {
+        fu_minter.version = version();
+        fu_font_config.version = version();
     }
 }
