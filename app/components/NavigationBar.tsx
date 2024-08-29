@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ConnectButton } from '@mysten/dapp-kit';
+import { NetworkSelector } from '@/components/NetworkSelector';
 
 export const NavigationBar: React.FC = () => {
     return (
@@ -22,7 +23,9 @@ export const NavigationBar: React.FC = () => {
                 <Link href="/my-collection">My Collection</Link>
                 <Link href="/rankings">Rankings →</Link>
 
-                <ConnectButton />
+                <div className="flex items-center gap-20px">
+                    <ConnectButton />
+                </div>
             </div>
         </nav>
     );

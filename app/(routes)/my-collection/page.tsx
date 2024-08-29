@@ -60,9 +60,9 @@ const MyCollection: NextPage<MyCollectionProps> = ({}) => {
                             ) : (
                                 <Grid columns="4" gap="3" width="auto">
                                     {fuCharactersData?.data.map(({ data }) => (
-                                        <Card key={data?.objectId} variant="surface">
-                                            <Image src={data?.display?.data?.image_url!} alt="" width="380" height="380" />
-                                            <Heading size="5">{data?.display?.data?.name}</Heading>
+                                        <Card key={data?.objectId} variant="classic">
+                                            <Image src={data?.display?.data?.image_url!} alt="" width="380" height="380" unoptimized />
+                                            <Heading size="5" mt="10px">{data?.display?.data?.name}</Heading>
                                         </Card>
                                     ))}
                                 </Grid>
