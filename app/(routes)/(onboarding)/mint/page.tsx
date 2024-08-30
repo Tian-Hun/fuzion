@@ -81,7 +81,7 @@ const MintPage: NextPage<MintPageProps> = ({}) => {
 
     return (
         <>
-            <section className="container flex gap-80px c-white px-50px pb-100px">
+            <section className="container flex items-center gap-80px c-white px-50px pb-100px">
                 <div className="flex-1">
                     <h1 className="text-4xl font-bold">Mint Your 福 Character NFT</h1>
                     <p className="text-lg mt-4">

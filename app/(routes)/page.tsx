@@ -11,7 +11,7 @@ interface RootPageProps {}
 const RootPage: NextPage<RootPageProps> = ({}) => {
     return (
         <>
-            <main className="mt--120px">
+            <section>
                 <section className="h-screen w-full relative flex justify-center">
                     <Spline
                         scene="https://prod.spline.design/TOLbRiRoJPyhIEtN/scene.splinecode"
@@ -100,7 +100,7 @@ const RootPage: NextPage<RootPageProps> = ({}) => {
                         <p className="c-white text-30px mt-4 text-center">May your collection of 福 characters grow and your blessings multiply!</p>
                     </div>
                 </section>
-            </main>
+            </section>
         </>
     );
 };

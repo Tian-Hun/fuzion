@@ -42,8 +42,8 @@ const MyCollection: NextPage<MyCollectionProps> = ({}) => {
                 <Heading mb="2" size="7">My Collection</Heading>
                 <Tabs.Root defaultValue="fu">
                     <Tabs.List>
-                        <Tabs.Trigger value="fu">福 Characters</Tabs.Trigger>
-                        <Tabs.Trigger value="strokes">Strokes</Tabs.Trigger>
+                        <Tabs.Trigger value="fu" className="text-18px">福 Characters</Tabs.Trigger>
+                        <Tabs.Trigger value="strokes" className="text-18px">Strokes</Tabs.Trigger>
                     </Tabs.List>
                     <Box pt="5">
                         <Tabs.Content value="fu">
