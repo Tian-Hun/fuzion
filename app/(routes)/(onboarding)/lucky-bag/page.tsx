@@ -8,6 +8,7 @@ import { useCurrentAccount, useCurrentWallet, useSignAndExecuteTransaction, useS
 import { FuButton } from '@/components/FuButton';
 import { useNetworkVariables } from '@/providers/sui/config';
 import { coinWithBalance, Transaction } from '@mysten/sui/transactions';
+import { useToast } from '@/hooks/useToast';
 
 interface LuckyBagPageProps {}
 
@@ -17,6 +18,8 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
     const sender = account?.address;
     const { packageId, objectDrawConfig, objectFuFontConfig, objectTreasury } = useNetworkVariables();
     const { connectionStatus } = useCurrentWallet();
+    const { showToast } = useToast();
+
     const [loading, setLoading] = useState(false);
 
     const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction({
@@ -46,9 +49,8 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
 
         const coins = await getCoins();
         const coinToUse = coins.data.find(coin => BigInt(coin.balance) >= paymentAmount);
-        console.log(coinToUse);
         if (!coinToUse) {
-            throw new Error('Insufficient balance');
+            showToast('Insufficient balance', 'error');
         }
 
         const [paymentCoin] = tx.splitCoins(tx.gas, [paymentAmount]);
@@ -70,11 +72,11 @@ const LuckyBagPage: NextPage<LuckyBagPageProps> = ({}) => {
             },
             {
                 onSuccess: (data) => {
-                    console.log('Mint success');
-                    console.log(data);
+                    showToast('Draw successfully', 'success');
                 },
                 onError: (error) => {
                     console.log(`Error: ${error}`);
+                    showToast('Draw failed, please try again', 'error');
                 },
                 onSettled: () => {
                     setLoading(false);
