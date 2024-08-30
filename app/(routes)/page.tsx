@@ -11,7 +11,7 @@ interface RootPageProps {}
 const RootPage: NextPage<RootPageProps> = ({}) => {
     return (
         <>
-            <main>
+            <main className="mt--120px">
                 <section className="h-screen w-full relative flex justify-center">
                     <Spline
                         scene="https://prod.spline.design/TOLbRiRoJPyhIEtN/scene.splinecode"
@@ -64,7 +64,7 @@ const RootPage: NextPage<RootPageProps> = ({}) => {
                             <div className="flex-1 flex flex-col items-center">
                                 <Image src="/fu-strokes.png" alt="" width="200" height="200" className="op-80" />
                                 <h3 className="c-white text-32px mt-4">Craft Your Fu</h3>
-                                <p className="c-white text-20px mt-4 text-center">Each Fu character consists of 13 strokes. Collect the right combination to complete your character and unlock the power of 福.</p>
+                                <p className="c-white text-20px mt-4 text-center">Each Fu character consists of multiple strokes. Collect the right combination to complete your character and unlock the power of 福.</p>
                                 <p className="c-white text-20px mt-4 text-center">Bringing good fortune and blessings to your digital realm!</p>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ const RootPage: NextPage<RootPageProps> = ({}) => {
                             <div className="flex-1 flex flex-col items-center">
                                 <Image src="/leaderboard.svg" alt="" width="200" height="200"/>
                                 <h3 className="c-white text-32px mt-4">Climb the Leaderboard</h3>
-                                <p className="c-white text-20px mt-4 text-center">Compete with other collectors to see who can complete their 福 characters first. The fastest collectors will earn a spot on the leaderboard and receive special rewards.</p>
+                                <p className="c-white text-20px mt-4 text-center">Compete with other collectors to see who can complete their 福 characters first.</p>
                                 <p className="c-white text-20px mt-4 text-center">Are you up for the challenge?</p>
                             </div>
                         </div>

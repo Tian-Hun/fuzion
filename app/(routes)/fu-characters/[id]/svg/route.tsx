@@ -14,9 +14,6 @@ export async function GET(
         const SvgComponent = () => (
             <FuCharacterImage
                 {...fu}
-                strokes={[
-                    { font: fu.font, type: 1 },
-                ]}
             />
         );
 

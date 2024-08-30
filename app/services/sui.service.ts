@@ -5,7 +5,7 @@ const network: Network = process.env.DEFAULT_NETWORK as Network;
 const rpcUrl = getFullnodeUrl(network);
 const suiClient = new SuiClient({ url: rpcUrl });
 
-export async function getFuCharacter(id: string) {
+export async function getObjectFields(id: string) {
     try {
         const { data, error } = await suiClient.getObject({
             id,
@@ -21,15 +21,38 @@ export async function getFuCharacter(id: string) {
         const fields = data?.content?.dataType === 'moveObject' ? data?.content?.fields as Record<string, any> : null;
 
         if (!fields) {
-            throw new Error(`Failed to parse object data returned for FuCharacter ${id}`);
+            throw new Error(`Failed to parse object data returned for ${id}`);
         }
-        console.log(fields.strokes.fields);
+
+        return fields;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getFuCharacter(id: string) {
+    try {
+        const fields = await getObjectFields(id);
+
         await serializeTable(id);
         return {
             font: fields.font,
             synthesized: fields.synthesized,
             strokes: [],
         };
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getStroke(id: string) {
+    try {
+        const fields = await getObjectFields(id);
+
+        return {
+            font: fields.font,
+            type: fields.type,
+        }
     } catch (error) {
         throw error;
     }

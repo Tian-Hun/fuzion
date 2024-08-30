@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { FuCharacterImage } from '@/components/FuCharacterImage';
+import { getStroke } from '@/services/sui.service';
 
 export async function GET(
     request: NextRequest,
@@ -8,12 +9,14 @@ export async function GET(
     const ReactDOMServer = (await import('react-dom/server')).default;
 
     try {
+        const stroke = await getStroke(params.id);
+
         const SvgComponent = () => (
             <FuCharacterImage
-                font={1}
+                font={stroke.font}
                 synthesized={false}
                 strokes={[
-                    { font: 1, type: 3 },
+                    { font: stroke.font, type: stroke.type },
                 ]}
             />
         );
