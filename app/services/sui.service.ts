@@ -52,7 +52,7 @@ export async function getStroke(id: string) {
         return {
             font: fields.font,
             type: fields.type,
-        }
+        };
     } catch (error) {
         throw error;
     }
