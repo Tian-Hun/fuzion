@@ -84,7 +84,7 @@ a) Use the Faucet button integrated into your wallet (e.g. Sui Wallet).
 b) Copy the localnet address from your wallet and run the following in your console:
 
 ```bash
-pnpm localnet:faucet 0xYOURADDRESS
+localnet faucet 0xYOURADDRESS
 ```
 
 #### 5. Set up environment variables:
